@@ -11,6 +11,8 @@ import {
   ShipWheel,
   WalletCards,
   Handshake,
+  CheckCircle2,
+  LoaderCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Field } from "@/components/ui/field";
@@ -28,21 +30,25 @@ export default function LoginForm() {
   const demoAccounts = [
     {
       label: "Administrator",
+      shortLabel: "Admin",
       email: "admin@horizonfreight.co.zw",
       icon: ShieldCheck,
     },
     {
       label: "Operations",
+      shortLabel: "Operations",
       email: "ops@horizonfreight.co.zw",
       icon: ShipWheel,
     },
     {
       label: "Accounts",
+      shortLabel: "Accounts",
       email: "accounts@horizonfreight.co.zw",
       icon: WalletCards,
     },
     {
       label: "Sales",
+      shortLabel: "Sales",
       email: "sales@horizonfreight.co.zw",
       icon: Handshake,
     },
@@ -75,70 +81,84 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-slate-950 text-white md:flex-row">
-      {/* Brand panel */}
-      <div className="relative hidden flex-col justify-between overflow-hidden bg-brand p-10 md:flex md:w-1/2 lg:w-3/5">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-32 -left-16 h-96 w-96 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="relative flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15">
-            <Anchor className="h-5 w-5" />
+    <main className="grid min-h-dvh bg-white lg:grid-cols-[52%_48%]">
+      <section className="hidden min-h-dvh flex-col justify-between bg-brand px-12 py-10 text-white lg:flex xl:px-16 xl:py-12">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center border border-white/30">
+            <Anchor className="h-5 w-5" aria-hidden="true" />
           </div>
           <div>
-            <p className="font-bold leading-tight">Horizon Freight</p>
-            <p className="text-xs text-white/60">&amp; Logistics</p>
+            <p className="font-semibold leading-tight">Horizon Freight</p>
+            <p className="mt-0.5 text-xs text-blue-100/70">&amp; Logistics</p>
           </div>
         </div>
 
-        <div className="relative max-w-md space-y-4">
-          <h1 className="text-4xl font-bold leading-tight">
-            Moving Business <span className="text-cyan-200">Forward</span>
-          </h1>
-          <p className="text-white/70">
-            Every shipment. Every customer. Every dollar. One command centre for
-            shipping, freight, clearing and vehicle logistics.
+        <div className="max-w-xl">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-100/70">
+            Shipping operations system
           </p>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li>✓ Track every shipment in real time</li>
-            <li>✓ Know every customer balance</li>
-            <li>✓ See profitability per shipment</li>
+          <h1 className="max-w-lg text-5xl font-semibold leading-[1.08] tracking-[-0.035em] xl:text-6xl">
+            Freight operations, under control.
+          </h1>
+          <p className="mt-6 max-w-lg text-base leading-7 text-blue-50/75">
+            Manage shipments, customers, documents and financial performance
+            from one operational workspace.
+          </p>
+
+          <ul className="mt-10 grid max-w-lg gap-4 border-t border-white/20 pt-7 text-sm text-blue-50/90 sm:grid-cols-2">
+            {[
+              "Shipment visibility",
+              "Customer balances",
+              "Document control",
+              "Profitability tracking",
+            ].map((feature) => (
+              <li key={feature} className="flex items-center gap-2.5">
+                <CheckCircle2
+                  className="h-4 w-4 shrink-0 text-blue-200"
+                  aria-hidden="true"
+                />
+                {feature}
+              </li>
+            ))}
           </ul>
         </div>
 
-        <p className="relative text-xs text-white/50">
-          © 2026 Horizon Freight &amp; Logistics · Moving Business Forward
+        <p className="border-t border-white/20 pt-5 text-xs text-blue-100/60">
+          © 2026 Horizon Freight &amp; Logistics
         </p>
-      </div>
+      </section>
 
-      {/* Login form */}
-      <div className="flex flex-1 items-center justify-center bg-slate-950 px-6 py-12">
+      <section className="flex min-h-dvh items-center justify-center px-5 py-8 text-slate-900 sm:px-10 lg:px-12">
         <div className="w-full max-w-md">
-          <div className="mb-8 flex items-center gap-2 md:hidden">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand">
-              <Anchor className="h-4 w-4 text-white" />
+          <div className="mb-10 flex items-center gap-3 lg:hidden">
+            <div className="flex h-10 w-10 items-center justify-center bg-brand text-white">
+              <Anchor className="h-4 w-4" aria-hidden="true" />
             </div>
             <div>
-              <p className="font-bold leading-tight">Horizon Freight</p>
-              <p className="text-xs text-slate-400">&amp; Logistics</p>
+              <p className="font-semibold leading-tight">Horizon Freight</p>
+              <p className="mt-0.5 text-xs text-slate-500">&amp; Logistics</p>
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold">Staff Sign In</h2>
-          <p className="mt-1 text-sm text-slate-400">
-            Welcome back — sign in to manage operations.
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+            Staff workspace
+          </p>
+          <h2 className="mt-2 text-3xl font-semibold tracking-[-0.025em]">
+            Sign in
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            Select a demo role or use your staff credentials.
           </p>
 
           <section className="mt-7" aria-labelledby="demo-access-heading">
             <div className="mb-3 flex items-center justify-between gap-3">
               <h3
                 id="demo-access-heading"
-                className="text-sm font-semibold text-white"
+                className="text-sm font-medium text-slate-700"
               >
-                Quick demo access
+                Demo access
               </h3>
-              <span className="rounded-full bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-cyan-300">
-                One click
-              </span>
+              <span className="text-xs text-slate-400">One-click sign in</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               {demoAccounts.map((account) => {
@@ -158,10 +178,23 @@ export default function LoginForm() {
                     }
                     disabled={activeLogin !== null}
                     aria-label={`Open the demo as ${account.label}`}
-                    className="h-12 justify-start border-slate-700 bg-slate-900 px-3 text-slate-100 hover:border-cyan-400/60 hover:bg-slate-800 active:scale-[0.98]"
-                    icon={<Icon className="h-4 w-4 shrink-0 text-cyan-300" />}
+                    className="h-12 cursor-pointer justify-start rounded-lg border-slate-200 bg-white px-3 text-slate-700 transition-colors duration-200 hover:border-brand/40 hover:bg-brand-light active:bg-blue-100"
+                    icon={<Icon className="h-4 w-4 shrink-0 text-brand" />}
                   >
-                    {isActive ? "Opening…" : account.label}
+                    {isActive ? (
+                      <span className="flex items-center gap-1.5">
+                        <LoaderCircle
+                          className="h-3.5 w-3.5 animate-spin motion-reduce:animate-none"
+                          aria-hidden="true"
+                        />
+                        Opening…
+                      </span>
+                    ) : (
+                      <>
+                        <span className="sm:hidden">{account.shortLabel}</span>
+                        <span className="hidden sm:inline">{account.label}</span>
+                      </>
+                    )}
                   </Button>
                 );
               })}
@@ -169,13 +202,13 @@ export default function LoginForm() {
           </section>
 
           <div className="my-6 flex items-center gap-3" aria-hidden="true">
-            <div className="h-px flex-1 bg-slate-800" />
-            <span className="text-xs text-slate-500">or sign in manually</span>
-            <div className="h-px flex-1 bg-slate-800" />
+            <div className="h-px flex-1 bg-slate-200" />
+            <span className="text-xs text-slate-400">staff credentials</span>
+            <div className="h-px flex-1 bg-slate-200" />
           </div>
 
           <form onSubmit={onSubmit} className="space-y-4">
-            <Field label="Email">
+            <Field label="Email" className="[&>span]:text-slate-700">
               <Input
                 type="email"
                 required
@@ -183,10 +216,10 @@ export default function LoginForm() {
                 placeholder="you@horizonfreight.co.zw"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-slate-700 bg-slate-900 text-white placeholder:text-slate-500"
+                className="h-12 rounded-lg border-slate-300 bg-white px-4 text-base text-slate-900 focus:border-brand focus:ring-brand/15 sm:text-sm"
               />
             </Field>
-            <Field label="Password">
+            <Field label="Password" className="[&>span]:text-slate-700">
               <Input
                 type="password"
                 required
@@ -194,14 +227,14 @@ export default function LoginForm() {
                 placeholder="••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-slate-700 bg-slate-900 text-white placeholder:text-slate-500"
+                className="h-12 rounded-lg border-slate-300 bg-white px-4 text-base text-slate-900 focus:border-brand focus:ring-brand/15 sm:text-sm"
               />
             </Field>
 
             {error && (
               <div
                 role="alert"
-                className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
+                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
               >
                 {error}
               </div>
@@ -210,33 +243,43 @@ export default function LoginForm() {
             <Button
               type="submit"
               size="lg"
-              className="w-full"
+              className="w-full cursor-pointer rounded-lg transition-colors duration-200 active:bg-brand-dark"
               disabled={activeLogin !== null}
               icon={
                 activeLogin === "manual" ? undefined : (
-                  <LogIn className="h-4 w-4" />
+                  <LogIn className="h-4 w-4" aria-hidden="true" />
                 )
               }
             >
-              {activeLogin === "manual" ? "Signing in…" : "Sign In"}
+              {activeLogin === "manual" ? (
+                <span className="flex items-center gap-2">
+                  <LoaderCircle
+                    className="h-4 w-4 animate-spin motion-reduce:animate-none"
+                    aria-hidden="true"
+                  />
+                  Signing in…
+                </span>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
 
-          <div className="mt-8 border-t border-slate-800 pt-6">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Customer? Track your shipment
+          <div className="mt-8 border-t border-slate-200 pt-6 text-center">
+            <p className="text-xs text-slate-500">
+              Looking for a customer shipment?
             </p>
             <Button
               href="/portal/login"
-              variant="outline"
-              className="mt-3 w-full border-slate-700 bg-transparent text-white hover:bg-slate-900"
-              icon={<ArrowRight className="h-4 w-4" />}
+              variant="ghost"
+              className="mt-2 h-11 w-full text-brand hover:bg-brand-light"
+              icon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
             >
               Open Customer Portal
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

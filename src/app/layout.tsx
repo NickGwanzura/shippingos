@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Public_Sans } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
-const publicSans = Public_Sans({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-public-sans",
+  variable: "--font-instrument-sans",
   display: "swap",
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={publicSans.variable}>{children}</body>
+      <body className={instrumentSans.variable}>{children}</body>
     </html>
   );
 }

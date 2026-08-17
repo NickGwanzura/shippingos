@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-public-sans), "Public Sans", ui-sans-serif, system-ui,
-    -apple-system, "Segoe UI", sans-serif;
-  --font-display: var(--font-public-sans), "Public Sans", ui-sans-serif,
+  --font-sans: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif,
     system-ui, sans-serif;
 
   --color-brand: #0b3b8c;
@@ -27,7 +27,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--color-canvas);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
