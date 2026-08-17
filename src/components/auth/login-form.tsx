@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { LogIn, Anchor, ArrowRight } from "lucide-react";
+import {
+  LogIn,
+  Anchor,
+  ArrowRight,
+  ShieldCheck,
+  ShipWheel,
+  WalletCards,
+  Handshake,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Field } from "@/components/ui/field";
 
@@ -15,24 +23,55 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [activeLogin, setActiveLogin] = useState<string | null>(null);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
+  const demoAccounts = [
+    {
+      label: "Administrator",
+      email: "admin@horizonfreight.co.zw",
+      icon: ShieldCheck,
+    },
+    {
+      label: "Operations",
+      email: "ops@horizonfreight.co.zw",
+      icon: ShipWheel,
+    },
+    {
+      label: "Accounts",
+      email: "accounts@horizonfreight.co.zw",
+      icon: WalletCards,
+    },
+    {
+      label: "Sales",
+      email: "sales@horizonfreight.co.zw",
+      icon: Handshake,
+    },
+  ];
+
+  async function signInWithCredentials(
+    loginEmail: string,
+    loginPassword: string,
+    loginKey: string,
+  ) {
+    setActiveLogin(loginKey);
     setError(null);
     const res = await signIn("credentials", {
-      email,
-      password,
+      email: loginEmail,
+      password: loginPassword,
       redirect: false,
     });
-    setLoading(false);
     if (res?.error) {
+      setActiveLogin(null);
       setError("Invalid email or password. Please try again.");
       return;
     }
     router.push(callbackUrl);
     router.refresh();
+  }
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    await signInWithCredentials(email, password, "manual");
   }
 
   return (
@@ -73,7 +112,7 @@ export default function LoginForm() {
 
       {/* Login form */}
       <div className="flex flex-1 items-center justify-center bg-slate-950 px-6 py-12">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md">
           <div className="mb-8 flex items-center gap-2 md:hidden">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand">
               <Anchor className="h-4 w-4 text-white" />
@@ -89,11 +128,58 @@ export default function LoginForm() {
             Welcome back — sign in to manage operations.
           </p>
 
-          <form onSubmit={onSubmit} className="mt-8 space-y-4">
+          <section className="mt-7" aria-labelledby="demo-access-heading">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h3
+                id="demo-access-heading"
+                className="text-sm font-semibold text-white"
+              >
+                Quick demo access
+              </h3>
+              <span className="rounded-full bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-cyan-300">
+                One click
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              {demoAccounts.map((account) => {
+                const Icon = account.icon;
+                const isActive = activeLogin === account.email;
+                return (
+                  <Button
+                    key={account.email}
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      signInWithCredentials(
+                        account.email,
+                        "#Shipping2026!",
+                        account.email,
+                      )
+                    }
+                    disabled={activeLogin !== null}
+                    aria-label={`Open the demo as ${account.label}`}
+                    className="h-12 justify-start border-slate-700 bg-slate-900 px-3 text-slate-100 hover:border-cyan-400/60 hover:bg-slate-800 active:scale-[0.98]"
+                    icon={<Icon className="h-4 w-4 shrink-0 text-cyan-300" />}
+                  >
+                    {isActive ? "Opening…" : account.label}
+                  </Button>
+                );
+              })}
+            </div>
+          </section>
+
+          <div className="my-6 flex items-center gap-3" aria-hidden="true">
+            <div className="h-px flex-1 bg-slate-800" />
+            <span className="text-xs text-slate-500">or sign in manually</span>
+            <div className="h-px flex-1 bg-slate-800" />
+          </div>
+
+          <form onSubmit={onSubmit} className="space-y-4">
             <Field label="Email">
               <Input
                 type="email"
                 required
+                autoComplete="email"
                 placeholder="you@horizonfreight.co.zw"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -104,6 +190,7 @@ export default function LoginForm() {
               <Input
                 type="password"
                 required
+                autoComplete="current-password"
                 placeholder="••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -112,7 +199,10 @@ export default function LoginForm() {
             </Field>
 
             {error && (
-              <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <div
+                role="alert"
+                className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
+              >
                 {error}
               </div>
             )}
@@ -121,10 +211,14 @@ export default function LoginForm() {
               type="submit"
               size="lg"
               className="w-full"
-              disabled={loading}
-              icon={loading ? undefined : <LogIn className="h-4 w-4" />}
+              disabled={activeLogin !== null}
+              icon={
+                activeLogin === "manual" ? undefined : (
+                  <LogIn className="h-4 w-4" />
+                )
+              }
             >
-              {loading ? "Signing in…" : "Sign In"}
+              {activeLogin === "manual" ? "Signing in…" : "Sign In"}
             </Button>
           </form>
 
@@ -141,10 +235,6 @@ export default function LoginForm() {
               Open Customer Portal
             </Button>
           </div>
-
-          <p className="mt-8 text-center text-xs text-slate-600">
-            Demo access: admin@horizonfreight.co.zw
-          </p>
         </div>
       </div>
     </div>
